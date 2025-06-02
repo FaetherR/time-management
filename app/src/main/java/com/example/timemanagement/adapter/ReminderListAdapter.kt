@@ -1,19 +1,16 @@
 package com.example.timemanagement.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timemanagement.databinding.ItemReminderBinding
-import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 class ReminderListAdapter(private val items: MutableList<ItemReminder>, private val onClickInsert: OnClickInsert) : RecyclerView.Adapter<ReminderListAdapter.ReminderListViewHolder>() {
     var onClick: OnClickAdapter? = null
 
     interface OnClickAdapter {
-        fun btnManagerToursClick(position:Int)
+        fun btnOnDisableClick(position:Int)
     }
 
     fun setOnClickListener(onClickAdapter: OnClickAdapter) {
@@ -29,10 +26,11 @@ class ReminderListAdapter(private val items: MutableList<ItemReminder>, private 
 
             binding.textViewMessage.text = item.message
 
-            binding.root.setOnClickListener {
-                onClickInsert.onClickItem()
+            binding.switchDisable.setOnClickListener {
+                items.removeAt(position)
+                notifyItemRemoved(position)
+                //onClickInsert.onDisableClick(position)
             }
-
         }
     }
 

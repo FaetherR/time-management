@@ -75,6 +75,9 @@ class FirstFragment : Fragment(), ReminderCommunicationInterface {
             override fun onClickInsert() {
 
             }
+            override fun onDisableClick(position: Int) {
+                super.onDisableClick(position)
+            }
         })
         (binding.recyclerView.adapter as ReminderListAdapter).sortByTime()
     }
