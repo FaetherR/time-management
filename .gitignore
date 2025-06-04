@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/java/com/example/timemanagement/retrofit/ApiKey.kt
+/app/src/main/java/com/example/timemanagement/retrofit/ApiConstants.kt

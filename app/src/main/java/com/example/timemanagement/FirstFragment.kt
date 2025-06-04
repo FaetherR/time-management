@@ -82,9 +82,9 @@ class FirstFragment : Fragment(), ReminderCommunicationInterface {
         (binding.recyclerView.adapter as ReminderListAdapter).sortByTime()
     }
 
-    override fun onReminderCreation(message: String, date: OffsetDateTime, type: Int) {
+    override fun onReminderCreation(message: String, date: OffsetDateTime, type: Int, oneSignalMessageID: String) {
         var adapter = binding.recyclerView.adapter as ReminderListAdapter
-        adapter.addItem(ItemReminder(date, message, type))
+        adapter.addItem(ItemReminder(date, message, type, oneSignalMessageID))
 
         CoroutineScope(Dispatchers.IO).launch {
             DataStoreInstance.getInstance().saveList(requireContext(), adapter.getItems())

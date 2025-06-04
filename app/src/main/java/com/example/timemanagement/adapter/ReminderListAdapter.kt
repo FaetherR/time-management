@@ -4,6 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timemanagement.databinding.ItemReminderBinding
+import com.example.timemanagement.datastore.DataStoreInstance
+import com.example.timemanagement.retrofit.ApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
 class ReminderListAdapter(private val items: MutableList<ItemReminder>, private val onClickInsert: OnClickInsert) : RecyclerView.Adapter<ReminderListAdapter.ReminderListViewHolder>() {
@@ -27,10 +32,16 @@ class ReminderListAdapter(private val items: MutableList<ItemReminder>, private 
             binding.textViewMessage.text = item.message
 
             binding.switchDisable.setOnClickListener {
-                items.removeAt(position)
-                notifyItemRemoved(position)
+                val index = items.indexOf(item)
+                items.remove(item)
+                notifyItemRemoved(index)
+                CoroutineScope(Dispatchers.IO).launch {
+                    DataStoreInstance.getInstance().saveList(binding.root.context, getItems())
+                }
+                ApiClient.deleteNotification(item.oneSignalMessageId)
                 //onClickInsert.onDisableClick(position)
             }
+            binding.switchDisable.isChecked = true
         }
     }
 
